@@ -19,13 +19,13 @@ class SourceConverterClass {
     }
 
     @TypeConverter
-    fun toCountryLangList(countryLangString: String?): Source? {
-        if (countryLangString == null) {
+    fun toSourceObject(sourceObjectString: String?): Source? {
+        if (sourceObjectString == null) {
             return null
         }
         val gson = Gson()
         val type: Type = object : TypeToken<Source?>() {}.type
-        return gson.fromJson<Source>(countryLangString, type)
+        return gson.fromJson<Source>(sourceObjectString, type)
     }
 
 }

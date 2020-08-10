@@ -7,13 +7,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.myans.newsportal.R
 import com.myans.newsportal.data.entities.News
 import com.myans.newsportal.databinding.NewsItemBinding
 
 class NewsAdapter(private val listener: NewsItemListener) : RecyclerView.Adapter<NewsViewHolder>() {
 
     interface NewsItemListener {
-        fun onCLickedNews(newsId: String)
+        fun onCLickedNews(newsItem: News)
     }
 
     private val items = ArrayList<News>()
@@ -49,11 +50,12 @@ class NewsViewHolder(private val itemBinding: NewsItemBinding, private val liste
         itemBinding.speciesAndStatus.text = item.description
         Glide.with(itemBinding.root)
             .load(item.urlToImage)
+            .placeholder(R.drawable.placeholder_news)
             .into(itemBinding.image)
     }
 
     override fun onClick(v: View?) {
-        listener.onCLickedNews(news.publishedAt)
+        listener.onCLickedNews(news)
     }
 }
 

@@ -5,13 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.myans.newsportal.R
+import com.myans.newsportal.data.entities.News
 import com.myans.newsportal.databinding.FragmentListBinding
 import com.myans.newsportal.utils.Resource
 import com.myans.newsportal.utils.autoCleared
+import com.myans.newsportal.utils.fromObjectToString
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -34,6 +39,10 @@ class NewsListFragment: Fragment(), NewsAdapter.NewsItemListener {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         setupObservers()
+        binding.changeCountry.setOnClickListener {
+            viewModel.country = "us"
+            setupObservers()
+        }
     }
 
     private fun setupRecyclerView() {
@@ -58,7 +67,12 @@ class NewsListFragment: Fragment(), NewsAdapter.NewsItemListener {
         })
     }
 
-    override fun onCLickedNews(characterId: String) {
+    override fun onCLickedNews(newsItem: News) {
         Timber.d("clicked")
+
+        findNavController().navigate(
+            R.id.action_list_fragment_to_detail_fragment,
+            bundleOf("news_item" to fromObjectToString(newsItem))
+        )
     }
 }

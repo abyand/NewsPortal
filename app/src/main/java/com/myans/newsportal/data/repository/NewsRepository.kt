@@ -16,9 +16,9 @@ class NewsRepository @Inject constructor(
         saveCallResult = {localDataSource.insert(it)}
     )
 
-    fun getAllNews() = performGetOperation(
+    fun getAllNews(countryId: String) = performGetOperation(
         databaseQuery = {localDataSource.getAllNews()},
-        networkCall = {remoteDataSource.getNews()},
+        networkCall = {remoteDataSource.getNews(countryId)},
         saveCallResult = {localDataSource.insertAll(it.articles)}
     )
 

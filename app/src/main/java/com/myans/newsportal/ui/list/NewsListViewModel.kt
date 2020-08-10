@@ -7,5 +7,11 @@ import com.myans.newsportal.data.repository.NewsRepository
 class NewsListViewModel @ViewModelInject constructor(
     private val repository: NewsRepository
 ): ViewModel() {
-    val news = repository.getAllNews()
+    var country = "id"
+    var news = repository.getAllNews(country)
+
+    fun getAllNews(countryId: String) {
+        country = countryId
+        news = repository.getAllNews(country)
+    }
 }

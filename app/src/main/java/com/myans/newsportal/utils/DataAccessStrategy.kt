@@ -3,6 +3,7 @@ package com.myans.newsportal.utils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
+import com.myans.newsportal.data.entities.News
 import kotlinx.coroutines.Dispatchers
 import com.myans.newsportal.utils.Resource.Status.*
 
@@ -23,3 +24,9 @@ fun <T, A> performGetOperation(databaseQuery: () -> LiveData<T>,
             emitSource(source)
         }
     }
+
+//fun recopyValue(news: News): News {
+//    return News(
+//        news.source
+//    )
+//}
