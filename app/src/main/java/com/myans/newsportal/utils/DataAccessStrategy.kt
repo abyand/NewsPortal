@@ -7,26 +7,17 @@ import com.myans.newsportal.data.entities.News
 import kotlinx.coroutines.Dispatchers
 import com.myans.newsportal.utils.Resource.Status.*
 
-fun <T, A> performGetOperation(databaseQuery: () -> LiveData<T>,
+suspend fun <T, A> performGetOperation(databaseQuery: () -> T,
                                networkCall: suspend () -> Resource<A>,
-                               saveCallResult: suspend (A) -> Unit): LiveData<Resource<T>> =
-    liveData(Dispatchers.IO) {
-        emit(Resource.loading())
-        val source = databaseQuery.invoke().map { Resource.success(it) }
-        emitSource(source)
-
-        val responseStatus = networkCall.invoke()
-        if (responseStatus.status == SUCCESS) {
-            saveCallResult(responseStatus.data!!)
-
-        } else if (responseStatus.status == ERROR) {
-            emit(Resource.error(responseStatus.message!!))
-            emitSource(source)
-        }
+                               saveCallResult: suspend (T) -> Unit,
+                               dataBridge: suspend (A) -> T): Resource<T> {
+    val cache = databaseQuery.invoke()
+    val response = networkCall.invoke()
+    if (response.status == SUCCESS) {
+        saveCallResult(dataBridge(response.data!!))
+        return Resource.success(dataBridge(response.data))
+    } else {
+        return Resource.error(response.message!!, cache)
     }
 
-//fun recopyValue(news: News): News {
-//    return News(
-//        news.source
-//    )
-//}
+}

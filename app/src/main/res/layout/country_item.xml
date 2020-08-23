@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="8dp"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:contentDescription="@string/app_name"
+        android:id="@+id/country_flag"
+        android:layout_width="50dp"
+        android:layout_height="25dp"
+        tools:src="@drawable/placeholder_news"/>
+    <TextView
+        android:textColor="@color/solidDark"
+        android:textStyle="bold"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_gravity="center"
+        tools:text="Indonesia"
+        android:id="@+id/country_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
+    <ImageView
+        android:id="@+id/is_checked"
+        android:src="@drawable/ic_check"
+        android:layout_width="25dp"
+        android:layout_height="25dp"/>
+
+</LinearLayout>

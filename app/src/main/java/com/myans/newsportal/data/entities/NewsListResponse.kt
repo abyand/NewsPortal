@@ -1,7 +1,7 @@
 package com.myans.newsportal.data.entities
 
-data class NewsList(
+data class NewsListResponse(
     val status: String,
     val totalResult: Int,
-    val articles: List<News>
+    val articles: List<NewsResponse>
 )

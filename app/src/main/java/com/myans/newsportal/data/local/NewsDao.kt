@@ -10,8 +10,8 @@ import com.myans.newsportal.data.entities.News
 @Dao
 interface NewsDao {
 
-    @Query("SELECT * FROM news")
-    fun getAllNews() : LiveData<List<News>>
+    @Query("SELECT * FROM news WHERE countryId = :countryId")
+    fun getAllNews(countryId: String) : List<News>
 
     @Query("SELECT * FROM news WHERE publishedAt = :id")
     fun getNews(id: Int): LiveData<News>

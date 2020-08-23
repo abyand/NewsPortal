@@ -1,17 +1,16 @@
 package com.myans.newsportal.data.remote
 
-import com.myans.newsportal.data.entities.News
-import com.myans.newsportal.data.entities.NewsList
+import com.myans.newsportal.data.entities.NewsListResponse
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface NewsService {
-
     @GET("top-headlines")
-    suspend fun getNewsList(@Query("country") countryId: String) : Response<NewsList>
+    suspend fun getTopHeadlineNews(@Query("country") countryId: String = "id") : Response<NewsListResponse>
 
-    @GET("character/{id}")
-    suspend fun getNewsDetail(@Path("id") id: Int): Response<News>
+
+    @GET("everything")
+    suspend fun getNewsList(@Query("country") countryId: String = "id",
+                            @Query("querySearch") querySearch: String) : Response<NewsListResponse>
 }

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">News Portal</string>
+    <string name="show_news_from">Showing headlines news from</string>
+    <string name="type_here">Type Here …</string>
+    <string name="search">Search</string>
+    <string name="indonesia">Indonesia</string>
 </resources>

@@ -4,11 +4,10 @@ import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.myans.newsportal.data.local.AppDatabase
-import com.myans.newsportal.data.local.NewsDao
-import com.myans.newsportal.data.remote.NewsRemoteDataSource
 import com.myans.newsportal.data.remote.NewsService
-import com.myans.newsportal.data.repository.NewsRepository
+import com.myans.newsportal.data.repository.CountryRepository
 import com.myans.newsportal.ui.MainActivity
+import com.myans.newsportal.ui.country.CountryListViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,6 +16,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 
@@ -26,7 +26,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(gson: Gson) : Retrofit = Retrofit.Builder()
+    fun provideNewsRetrofit(gson: Gson) : Retrofit = Retrofit.Builder()
         .baseUrl("https://newsapi.org/v2/")
         .addConverterFactory(GsonConverterFactory.create(gson))
         .client(OkHttpClient.Builder().addInterceptor(object : Interceptor {
@@ -35,7 +35,6 @@ object AppModule {
                 val url: HttpUrl =
                     request.url().newBuilder()
                         .addQueryParameter("apiKey", MainActivity.API_KEY)
-                        .addQueryParameter("country", "id")
                         .build()
                 request = request.newBuilder().url(url).build()
                 return chain.proceed(request)
@@ -53,22 +52,14 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideCharacterRemoteDataSource(newsService: NewsService) = NewsRemoteDataSource(newsService)
-
-
-    @Singleton
-    @Provides
     fun provideDatabase(@ApplicationContext appContext: Context) = AppDatabase.getDatabase(appContext)
 
     @Singleton
     @Provides
-    fun provideCharacterDao(db: AppDatabase) = db.newsDao()
+    fun provideNewsDao(db: AppDatabase) = db.newsDao()
 
     @Singleton
     @Provides
-    fun provideRepository(remoteDataSource: NewsRemoteDataSource,
-                          localDataSource: NewsDao) =
-        NewsRepository(remoteDataSource, localDataSource)
-
+    fun provideCountryRepository(@ApplicationContext appContext: Context, gson: Gson) = CountryRepository(appContext, gson)
 
 }

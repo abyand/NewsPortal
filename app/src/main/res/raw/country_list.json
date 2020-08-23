@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Argentina",
+    "country_id": "ar",
+    "flag_url" : "https://www.countryflags.io/ar/flat/64.png"
+  },
+  {
+    "name": "Australia",
+    "country_id": "au",
+    "flag_url" : "https://www.countryflags.io/au/flat/64.png"
+  },
+  {
+    "name": "Brazil",
+    "country_id": "ba",
+    "flag_url" : "https://www.countryflags.io/ba/flat/64.png"
+  },
+  {
+    "name": "Canada",
+    "country_id": "ca",
+    "flag_url" : "https://www.countryflags.io/ca/flat/64.png"
+  },
+  {
+    "name": "Germany",
+    "country_id": "DE",
+    "flag_url" : "https://www.countryflags.io/de/flat/64.png"
+  },
+  {
+    "name": "France",
+    "country_id": "fr",
+    "flag_url" : "https://www.countryflags.io/fr/flat/64.png"
+  },
+  {
+    "name": "Indonesia",
+    "country_id": "id",
+    "flag_url" : "https://www.countryflags.io/id/flat/64.png"
+  },
+  {
+    "name": "Japan",
+    "country_id": "jp",
+    "flag_url" : "https://www.countryflags.io/jp/flat/64.png"
+  },
+  {
+    "name": "Korea (Republic of)",
+    "country_id": "kr",
+    "flag_url" : "https://www.countryflags.io/kr/flat/64.png"
+  }
+]

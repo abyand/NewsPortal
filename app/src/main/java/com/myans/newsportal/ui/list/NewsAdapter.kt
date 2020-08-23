@@ -19,7 +19,7 @@ class NewsAdapter(private val listener: NewsItemListener) : RecyclerView.Adapter
 
     private val items = ArrayList<News>()
 
-    fun setItems(items: ArrayList<News>) {
+    fun setItems(items: List<News>) {
         this.items.clear()
         this.items.addAll(items)
         notifyDataSetChanged()
@@ -28,6 +28,11 @@ class NewsAdapter(private val listener: NewsItemListener) : RecyclerView.Adapter
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         val binding: NewsItemBinding = NewsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return NewsViewHolder(binding, listener)
+    }
+
+    override fun getItemViewType(position: Int): Int {
+
+        return super.getItemViewType(position)
     }
 
     override fun getItemCount(): Int = items.size
