@@ -30,7 +30,7 @@
                     android:id="@+id/button_change_country"
                     android:textAllCaps="false"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:text="@string/indonesia"
+                    tools:text="@string/indonesia"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:icon="@drawable/ic_arrow_down"/>

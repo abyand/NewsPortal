@@ -13,6 +13,10 @@ interface NewsDao {
     @Query("SELECT * FROM news WHERE countryId = :countryId")
     fun getAllNews(countryId: String) : List<News>
 
+
+    @Query("SELECT * FROM news WHERE title LIKE :keyword OR description LIKE :keyword ")
+    fun getNewsWithKeyword(keyword: String) : List<News>
+
     @Query("SELECT * FROM news WHERE publishedAt = :id")
     fun getNews(id: Int): LiveData<News>
 

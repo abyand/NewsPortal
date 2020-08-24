@@ -58,8 +58,4 @@ object AppModule {
     @Provides
     fun provideNewsDao(db: AppDatabase) = db.newsDao()
 
-    @Singleton
-    @Provides
-    fun provideCountryRepository(@ApplicationContext appContext: Context, gson: Gson) = CountryRepository(appContext, gson)
-
 }

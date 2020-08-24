@@ -4,8 +4,10 @@ import javax.inject.Inject
 
 class NewsRemoteDataSource @Inject constructor(
     private val newsService: NewsService
-): BaseDataSource(){
+){
 
     suspend fun getNews(countryId: String) = getResult { newsService.getTopHeadlineNews(countryId) }
+
+    suspend fun getNewsWithKeyword(keyword: String) = getResult { newsService.getNewsList(keyword) }
 
 }

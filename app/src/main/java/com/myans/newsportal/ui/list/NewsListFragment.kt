@@ -1,10 +1,11 @@
 package com.myans.newsportal.ui.list
 
+import android.app.SearchManager
+import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,11 +17,13 @@ import com.myans.newsportal.data.entities.Country
 import com.myans.newsportal.data.entities.News
 import com.myans.newsportal.databinding.FragmentListBinding
 import com.myans.newsportal.ui.country.CountryListDialog
+import com.myans.newsportal.utils.DebouncingQueryTextListener
 import com.myans.newsportal.utils.Resource
 import com.myans.newsportal.utils.autoCleared
 import com.myans.newsportal.utils.fromObjectToString
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import java.util.*
 
 @AndroidEntryPoint
 class NewsListFragment: Fragment(), NewsAdapter.NewsItemListener {
@@ -28,6 +31,34 @@ class NewsListFragment: Fragment(), NewsAdapter.NewsItemListener {
     private var binding: FragmentListBinding by autoCleared()
     private val viewModel: NewsListViewModel by viewModels()
     private lateinit var adapter: NewsAdapter
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.search_menu, menu)
+        // Associate searchable configuration with the SearchView
+        val searchManager = requireContext().getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        (menu.findItem(R.id.m_search).actionView as SearchView).apply {
+            setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))
+            setOnCloseListener {
+                viewModel.getAllNews()
+                true
+            }
+            maxWidth = Integer.MAX_VALUE
+            setOnQueryTextListener(
+                DebouncingQueryTextListener(
+                    this@NewsListFragment.lifecycle
+                ) { newText ->
+                    newText?.let {
+                        if (it.isEmpty()) {
+                            viewModel.getAllNews()
+                        } else {
+                            viewModel.getAllNews(it)
+                        }
+                    }
+                }
+            )
+        }
+        super.onCreateOptionsMenu(menu, inflater)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,21 +75,21 @@ class NewsListFragment: Fragment(), NewsAdapter.NewsItemListener {
         binding.buttonChangeCountry.setOnClickListener {
             showCountryDialog()
         }
-        viewModel.getAllNews("id")
+        binding.buttonChangeCountry.text = viewModel.selectedCountry.name
+        viewModel.getAllNews()
+        setHasOptionsMenu(true)
     }
 
     private fun showCountryDialog() {
-        val dialog = CountryListDialog(viewModel.countryId)
-
+        val dialog = CountryListDialog(viewModel.selectedCountry.countryId)
         dialog.listener = object :CountryListDialog.CountryListener {
             override fun onCountryClicked(country: Country) {
                 dialog.dismiss()
                 binding.buttonChangeCountry.text = country.name
-                viewModel.getAllNews(country.countryId)
+                viewModel.saveSelectedCountry(country)
+                viewModel.getAllNews()
             }
-
         }
-
         dialog.show(parentFragmentManager, CountryListDialog.TAG)
     }
 
@@ -71,6 +102,10 @@ class NewsListFragment: Fragment(), NewsAdapter.NewsItemListener {
 
     private fun setupObservers() {
         viewModel.news.observe(viewLifecycleOwner, Observer {
+            if (viewModel.getKeyword().isEmpty())
+                binding.layoutChangeCountry.visibility = View.VISIBLE
+            else
+                binding.layoutChangeCountry.visibility = View.GONE
             when (it.status) {
                 Resource.Status.SUCCESS -> {
                     binding.progressBar.visibility = View.GONE

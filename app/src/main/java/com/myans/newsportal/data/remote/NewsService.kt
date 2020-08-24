@@ -11,6 +11,5 @@ interface NewsService {
 
 
     @GET("everything")
-    suspend fun getNewsList(@Query("country") countryId: String = "id",
-                            @Query("querySearch") querySearch: String) : Response<NewsListResponse>
+    suspend fun getNewsList(@Query("q") querySearch: String) : Response<NewsListResponse>
 }
