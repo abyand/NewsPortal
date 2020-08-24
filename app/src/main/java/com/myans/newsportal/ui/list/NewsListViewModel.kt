@@ -28,8 +28,6 @@ class NewsListViewModel @ViewModelInject constructor(
     }
 
     fun getAllNews(keyword: String = "") {
-        if (this.keyword.equals(keyword))
-            return
         this.keyword = keyword
         viewModelScope.launch {
             withContext(Dispatchers.IO) {

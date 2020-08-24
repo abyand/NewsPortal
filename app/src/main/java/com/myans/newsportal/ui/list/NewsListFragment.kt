@@ -48,11 +48,8 @@ class NewsListFragment: Fragment(), NewsAdapter.NewsItemListener {
                     this@NewsListFragment.lifecycle
                 ) { newText ->
                     newText?.let {
-                        if (it.isEmpty()) {
-                            viewModel.getAllNews()
-                        } else {
+                        if (!it.equals(viewModel.getKeyword()))
                             viewModel.getAllNews(it)
-                        }
                     }
                 }
             )

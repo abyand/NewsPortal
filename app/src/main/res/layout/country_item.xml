@@ -9,8 +9,8 @@
     <ImageView
         android:contentDescription="@string/app_name"
         android:id="@+id/country_flag"
-        android:layout_width="50dp"
-        android:layout_height="25dp"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
         tools:src="@drawable/placeholder_news"/>
     <TextView
         android:textColor="@color/solidDark"
@@ -20,6 +20,7 @@
         android:layout_gravity="center"
         tools:text="Indonesia"
         android:id="@+id/country_name"
+        android:textSize="16sp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"/>
